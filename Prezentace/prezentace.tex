@@ -1,0 +1,323 @@
+\documentclass[10pt,xcolor={dvipsnames}]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{url}
+\begin{document}
+\title{\textsf{R} - inferenční statistika}
+\author{Lubor Homolka}
+\date{\today}
+\begin{frame}
+\titlepage
+\end{frame}
+
+%----------
+
+\begin{frame}
+\frametitle{Obsah školení}
+\begin{large}
+Teoretická část:\\
+\begin{itemize}
+\item[--] Domácí cvičení  \\[0.3cm]
+\item[--] Replikace a pravděpodobnost \\[0.3cm]
+\item[--] Schéma testování hypotéz: vědecká vs. statistická \\[0.3cm]
+\item[--] Chyby v interpretaci výsledků \\[0.3cm]
+\item[--] Meta-analýza \\[0.5cm]
+\end{itemize}
+Praktická část:\\
+\begin{itemize}
+\item[--] proporční test \texttt{prop.test} \\[0.3cm]
+\item[--] t-test a ANOVA \\[0.3cm]
+\item[--] meta-analýza
+\end{itemize}
+\end{large}
+\end{frame}
+
+\begin{frame}
+\frametitle{Domácí cvičení - dotazy}\begin{large}
+\begin{center}
+\url{https://github.com/luboRprojects}\newline\bigskip
+	
+\hspace*{-0.6cm}R-skoleni2 \hspace*{0.5cm}$\rightarrow$ \hspace*{0.5cm}skript: \texttt{plyr}$\_$\texttt{ukazka.R}
+\end{center}
+\end{large}
+\end{frame}
+
+%----------
+
+\begin{frame}[fragile]
+\frametitle{Frekvencionalistická statistika}
+\begin{large}
+\[\text{Pravděpodobnost} = \frac{\text{Příznivá pozorování}}{\text{Všecha pozorování}}\]\bigskip
+
+\textcolor{WildStrawberry}{Chyba $\alpha$ = $\text{P}\left(\text{zamítáme}\ H_0 | H_0\ =\text{pravdivá} \right)$\bigskip
+\[\alpha = \frac{\text{Počet článků, které zamítnou}}{\text{Všechny články}}\]}
+
+\textcolor{NavyBlue}{Chyba $\beta$ = $\text{P}\left(\text{nezamítáme}\ H_0 | H_0\ =\text{nepravdivá} \right)$\bigskip
+\[\beta = \frac{\text{Počet článků, které nezamítnou}}{\text{Všechny články}}\]}
+
+\end{large}
+\end{frame}
+
+%----------
+
+\begin{frame}
+\frametitle{Hypotézy}
+\begin{large}
+\begin{itemize}
+\item[--] Popperova falzifikace,
+\item[--] Epistemologický boj: Neymar-Pearson a Fisher \\
+\textcolor{WildStrawberry}{\item[--] Vědecká hypotéza: Organizace se správně implementovaným BSC, dosahují vyšší finanční výkonnosti (měřeno ROE).}\\
+\textcolor{NavyBlue}{\item[--] Nulová hypotéza: Efekt implementace BSC na ROE neexistuje: $H_0: \beta = 0$ } 
+\textcolor{NavyBlue}{\item[--] Alternativní hypotéza: Efekt implementace BSC na ROE je }\textcolor{WildStrawberry}{kladný}\textcolor{NavyBlue}{: $H_1: \beta > 0$ } 
+\end{itemize}
+\end{large}
+\end{frame}
+
+%----------
+
+
+\begin{frame}
+\begin{large}
+
+\begin{itemize}
+\item[--] nezveřejnění p-val $>0.05$.
+\item[--] statistická významnost vs. věcná významnost
+\item[--] kontrola splnění předpokladů - alternativní přístupy k asymptotickému odhadu (Monte Carlo)
+\item[--] nepřesná interpretace intervalů spolehlivosti
+\end{itemize}
+\end{large}
+\end{frame}
+
+%----------
+
+\begin{frame}
+\frametitle{Meta-analýza: Analýza síly testu}
+\begin{Large}
+\begin{itemize}
+\item[--] Jak ambiciózní je naše analýza?
+\item[--] Jaké výsledky můžeme očekávat?
+\item[--] Jak velký má být vzorek?
+\end{itemize}
+\end{Large}
+\end{frame}
+
+%----------
+
+\begin{frame}
+\frametitle{Analýza síly testu -- Power analysis}
+\begin{large}
+Analyzovaný problém souvisí s:
+\begin{itemize}
+\item[--] skutečným rozdílem mezi charakteristikami (effect size)
+\item[--] neurčitost v chováním proměnných (variance)
+\item[--] váha našeho důkazu (observations)
+\item[--] požadovaná míra chybovosti ($\alpha$, $1-\beta$).
+\end{itemize}
+\end{large}
+\end{frame}
+
+%----------
+
+\begin{frame}
+\frametitle{Analýza síly testu -- Power analysis}
+\begin{large}
+Domníváme se, že průměrná hodnota ROE firem, které správně implementují BSC je \textcolor{NavyBlue}{o 3 \%} vyšší než u ostatních firem. Očekáváte, že \textcolor{NavyBlue}{rozptyl ROE je 36\%}. Protože nevíte, zda opravdu BSC přináší pozitivní efekt, musíte specifikovat toleranci k oběma chybám. Je nepřijatelné, abyste potvrdili, že vliv existuje v případě, kdy \textcolor{WildStrawberry}{neexistuje ($\alpha=0.05$)}. Naopak, až tolik nevadí, když nenajdete důkaz pro existenci efektu, \textcolor{WildStrawberry}{pokud existuje ($\beta = 0.2$), neboli síla testu je 0.8}. \newline\smallskip
+
+\centering{Jaký je minimální počet respondentů pro náš výzkum?}
+\end{large}
+
+\end{frame}
+
+%----------
+
+\begin{frame}[fragile]
+\frametitle{Analýza síly testu -- Power analysis}
+Test rozdílu středních hodnot pro dvě úrovně je studentův t-test (\texttt{t.test}).\newline\smallskip
+
+effect size pro t-test je stanoven jako: \[d=\frac{\mu_1 - \mu_2}{\sigma}\]
+
+\begin{verbatim}
+library(pwr) #install.packages("pwr")
+effect.size <- (0.12-0.10)/0.06
+pwr.t.test(d = effect.size , sig.level = 0.05, 
+	      power = 0.8, type = c("two.sample"),
+		alternative="greater" )
+\end{verbatim}
+
+Existuje velmi mnoho možností úprav, jako rozdílné velikosti souborů, rozdílné rozptyly apod.
+\end{frame}
+
+%----------
+
+\begin{frame}[fragile]
+\frametitle{Analýza síly testu -- Power analysis}
+Výsledky:
+\begin{verbatim}
+     Two-sample t test power calculation 
+
+              n = 111.9686
+              d = 0.3333333
+      sig.level = 0.05
+          power = 0.8
+    alternative = greater
+
+NOTE: n is number in *each* group
+
+
+\end{verbatim}
+
+\textcolor{WildStrawberry}{Náš vzorek by musel být více než 220 firem, abychom dokázali detekovat rozdíl 2 \%!}
+
+\end{frame}
+
+%----------
+
+\begin{frame}[fragile]
+\frametitle{Analýza síly testu -- Váš úkol}
+\begin{Large}
+
+Neprovedli jste power analýzu a nyní Vám nic nevychází! Nasbírali jste totiž jen 80 firem v každé skupině (BSC, non-BSC). Jak velký by musel být skutečný efekt na ROE (rozdíl mezi $\mu_{\text{BSC}}$ a $\mu_{\text{non-BSC}}$), abyste tento rozdíl byli schopni nalézt?
+\end{Large}\newline\smallskip
+
+\url{github.com/luboRprojects/r_skoleni2/power_analysis.R}
+\end{frame}
+
+%----------
+
+\begin{frame}[fragile]
+\frametitle{Analýza síly testu -- Řešení}
+\begin{verbatim}
+> pwr.t.test(n = 80, sig.level = 0.05,  power = 0.8, 
+    type = c("two.sample"), alternative="greater" )
+
+     Two-sample t test power calculation 
+
+              n = 80
+              d = 0.3948399
+      sig.level = 0.05
+          power = 0.8
+    alternative = greater
+
+\end{verbatim}
+\[0.3948399 = \frac{\text{efekt}}{0.06} \]
+\textcolor{NavyBlue}{Efekt by musel být minimálně 2.369 \%, abychom ho dokázali detekovat.}
+\end{frame}
+
+%----------
+
+\begin{frame}
+\begin{figure}
+\includegraphics[scale=0.3]{github}
+\end{figure}
+\bigskip
+\url{github.com/luboRprojects/r_skoleni2/elementary_methods.R}
+\vspace{1cm}
+\end{frame}
+
+%----------
+
+\begin{frame}[fragile]
+\frametitle{Proporční test}
+Testuje hodnotu nebo shodu podílů $\pi$. Nulová hypotéza tvrdí, že neexistuje rozdíl $\text{H}_0: \pi_1 = \pi_2$\newline\smallskip
+
+Zeptali jsme se 100 Čechů a 100 Slováků na preferenci daného výrobku.
+\begin{itemize}
+\item[--] Možné odpovědi: líbí/nelíbí
+\item[--] 75\% Čechů se líbí, Slovákům pouze 70 \%
+\item[--] Je možné tvrdit, že existují různé preference?
+\end{itemize}
+\hrule
+\begin{verbatim}
+> prop.test(x=c(75, 70), n=c(100, 100))
+\end{verbatim}
+\hrule\smallskip
+
+Jak by se situace změnila, kdyby náš vzorek byl $10\times$ větší? (a proporce se zachovaly)
+
+\end{frame}
+
+%----------
+
+\begin{frame}
+\frametitle{Analýza kontingenční tabulky}
+Zjišťujeme, zda struktura kontingenční tabulky získané z našich dat odpovídá té, kterou bychom očekávali nastala, kdyby neexistoval vztah mezi proměnnými.
+\[CH = \sum\sum \frac{\left( n_{ij} - n_{ij}^*\right)^2}{ n_{ij}^*}\]
+
+
+\begin{itemize}
+\item[--] V případě splnění podmínek má testové kritérium $CH$ rozdělení $\chi^2$ 
+\item[--] Porušení podmínek (min. počet pozorování v buňce 5) neumožňuje srovnání CH s $\chi^2$.
+\item[--] V případě porušení podmínek buď \texttt{fisher.test}, nebo \texttt{parametr simulate.p.value=TRUE} ve funkci \texttt{chisq.test}.
+\end{itemize}
+\end{frame}
+
+%----------
+
+\begin{frame}[fragile]
+\frametitle{Kontingenční tabulka - příklad}
+Je prokazatelné, že se BSC firmy více hlásí k CSR?
+\begin{verbatim}
+> data.chi <- as.data.frame(matrix(c(30, 90, 60, 40),
+	byrow=TRUE, ncol=2))
+> data.chi 
+        CSR-ne CSR-ano
+BSC         30      90
+non-BSC     60      40
+
+> chisq.test(data.chi)
+Pearson's Chi-squared test with Yates'
+   continuity correction
+
+data:  data.chi
+X-squared = 26.2121, df = 1, p-value = 3.059e-07
+
+\end{verbatim}
+\end{frame}
+
+%----------
+
+\begin{frame}[fragile]
+\frametitle{Korelační analýza}
+Míra intenzity lineárního vztahu. Nulová hypotéza tvrdí, že vztah neexistuje, neboli $H_0: \rho=0$.
+\begin{itemize}
+\item[--] funkce \texttt{cor} vytváří korelační matici, ale netestuje významnost
+\item[--] funkce \texttt{cor.test} provádí párové testy a přináší další možnosti, jako je např. volba typu korelačního koeficientu (Pearson, Spearman). 
+\end{itemize}
+\begin{verbatim}
+cor(data.in[ ,c("Fresh", "Milk", "Grocery")])
+cor.test(data.in$Fresh, data.in$Milk)
+\end{verbatim}
+\end{frame}
+
+%----------
+
+\begin{frame}[fragile]
+\frametitle{Regresní analýza}
+Analyzuje kauzální vztah mezi vysvětlovanou proměnnou a vysvětlujícími proměnnými. \newline\smallskip
+Testujeme významnost jak celkového modelu, tak jednotlivých koeficientů.
+\begin{itemize}
+\item[--] hodnoty testů získáme ze \texttt{summary(objekt)}
+\item[--] celkový F-test - je model lepší než průměr? $H_0: \beta_1=\ldots=\beta_k = 0$
+\item[--] přispívá koeficient $\beta$ k vysvětlení? $H_0:\beta_l = 0$
+\end{itemize}
+
+\end{frame}
+
+%----------
+
+\begin{frame}
+Prezentace a její obsah je samozřejmě reproducible!
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{github_logo}
+\end{figure}
+\url{https://github.com/luboRprojects/r_skoleni2/}
+\end{frame}
+
+
+
+\end{document}
