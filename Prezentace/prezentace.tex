@@ -70,7 +70,7 @@ Praktická část:\\
 \begin{itemize}
 \item[--] Popperova falzifikace,
 \item[--] Epistemologický boj: Neymar-Pearson a Fisher \\
-\textcolor{WildStrawberry}{\item[--] Vědecká hypotéza: Organizace se správně implementovaným BSC, dosahují vyšší finanční výkonnosti (měřeno ROE).}\\
+\textcolor{WildStrawberry}{\item[--] Vědecká hypotéza: Organizace se správně implementovaným BSC dosahují vyšší finanční výkonnosti (měřeno ROE).}\\
 \textcolor{NavyBlue}{\item[--] Nulová hypotéza: Efekt implementace BSC na ROE neexistuje: $H_0: \beta = 0$ } 
 \textcolor{NavyBlue}{\item[--] Alternativní hypotéza: Efekt implementace BSC na ROE je }\textcolor{WildStrawberry}{kladný}\textcolor{NavyBlue}{: $H_1: \beta > 0$ } 
 \end{itemize}
@@ -125,9 +125,9 @@ Analyzovaný problém souvisí s:
 \begin{frame}
 \frametitle{Analýza síly testu -- Power analysis}
 \begin{large}
-Domníváme se, že průměrná hodnota ROE firem, které správně implementují BSC je \textcolor{NavyBlue}{o 3 \%} vyšší než u ostatních firem. Očekáváte, že \textcolor{NavyBlue}{rozptyl ROE je 36\%}. Protože nevíte, zda opravdu BSC přináší pozitivní efekt, musíte specifikovat toleranci k oběma chybám. Je nepřijatelné, abyste potvrdili, že vliv existuje v případě, kdy \textcolor{WildStrawberry}{neexistuje ($\alpha=0.05$)}. Naopak, až tolik nevadí, když nenajdete důkaz pro existenci efektu, \textcolor{WildStrawberry}{pokud existuje ($\beta = 0.2$), neboli síla testu je 0.8}. \newline\smallskip
+Domníváme se, že průměrná hodnota ROE firem, které správně implementují BSC je \textcolor{NavyBlue}{o 2 \%} vyšší než u ostatních firem. Očekáváte, že \textcolor{NavyBlue}{rozptyl ROE je 36\%}. Protože nevíte, zda BSC opravdu přináší pozitivní efekt, musíte specifikovat toleranci k oběma chybám. Je nepřijatelné, abyste potvrdili, že vliv existuje v případě, kdy \textcolor{WildStrawberry}{neexistuje ($\alpha=0.05$)}. Naopak, až tolik nevadí, když nenajdete důkaz pro existenci efektu, \textcolor{WildStrawberry}{pokud existuje ($\beta = 0.2$), neboli síla testu je 0.8}. \newline\smallskip
 
-\centering{Jaký je minimální počet respondentů pro náš výzkum?}
+\centering{Jaký je minimální počet respondentů pro váš výzkum?}
 \end{large}
 
 \end{frame}
@@ -145,7 +145,7 @@ library(pwr) #install.packages("pwr")
 effect.size <- (0.12-0.10)/0.06
 pwr.t.test(d = effect.size , sig.level = 0.05, 
 	      power = 0.8, type = c("two.sample"),
-		alternative="greater" )
+      alternative="greater" )
 \end{verbatim}
 
 Existuje velmi mnoho možností úprav, jako rozdílné velikosti souborů, rozdílné rozptyly apod.
